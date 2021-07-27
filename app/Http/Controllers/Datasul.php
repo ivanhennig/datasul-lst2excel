@@ -11,6 +11,11 @@ class Datasul
 {
     use AllowGuest;
 
+    public function convertPE5410($base64_content)
+    {
+
+    }
+
     public function convert($base64_content)
     {
         [, $content] = explode(',', $base64_content);
@@ -31,7 +36,11 @@ class Datasul
                 $nome = $tmp_nome;
             }
 
-            $adm = trim(substr($line, 37, 10));
+            $tmp_adm = trim(substr($line, 37, 10));
+            if ($tmp_adm) {
+                $adm = $tmp_adm;
+            }
+
             $periodo_inicial = trim(substr($line, 48, 10));
             $periodo_final = trim(substr($line, 59, 10));
             $concessao = trim(substr($line, 70, 10));
@@ -41,7 +50,7 @@ class Datasul
 
             if (!$tmp_matricula &&
                 !$tmp_nome &&
-                !$adm &&
+                !$tmp_adm &&
                 !$periodo_inicial &&
                 !$periodo_final &&
                 !$concessao &&
