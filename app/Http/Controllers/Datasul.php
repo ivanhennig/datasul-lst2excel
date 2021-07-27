@@ -21,8 +21,16 @@ class Datasul
             if (preg_match('/-----|MERCUR S.A|Estabeleci|Matrícula|\x0c/', $line)) continue;
 
             if (!$line) continue;
-            $matricula = trim(substr($line, 0, 10));
-            $nome = trim(substr($line, 12, 24));
+            $tmp_matricula = trim(substr($line, 0, 10));
+            if ($tmp_matricula) {
+                $matricula = $tmp_matricula;
+            }
+
+            $tmp_nome = trim(substr($line, 12, 24));
+            if ($tmp_nome) {
+                $nome = $tmp_nome;
+            }
+
             $adm = trim(substr($line, 37, 10));
             $periodo_inicial = trim(substr($line, 48, 10));
             $periodo_final = trim(substr($line, 59, 10));
@@ -55,6 +63,6 @@ class Datasul
         $file = 'relatorio-'.uniqid().'.xlsx';
         $path = storage_path("app/$file");
         $writer->save($path);
-        return config('app.url') . "download/$file";
+        return config('app.url') . "/download/$file";
     }
 }
