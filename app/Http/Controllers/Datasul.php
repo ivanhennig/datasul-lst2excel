@@ -39,15 +39,14 @@ class Datasul
             $conc = trim(substr($line, 86, 6));
             $saldo = trim(substr($line, 93, 4));
 
-            if (!$matricula &&
-                !$nome &&
+            if (!$tmp_matricula &&
+                !$tmp_nome &&
                 !$adm &&
                 !$periodo_inicial &&
                 !$periodo_final &&
                 !$concessao &&
                 !$dir &&
-                !$conc &&
-                !$saldo
+                !$conc
             ) continue;
 
             $header[] = [
