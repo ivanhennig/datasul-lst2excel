@@ -3,7 +3,7 @@
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return redirect('/dist');
 });
 
 $router->get('/download/{file}', function ($file) use ($router) {
