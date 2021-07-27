@@ -6,11 +6,24 @@
     <div class="card">
       <div class="card-header">Planejamento de Programação de Férias</div>
       <div class="card-body">
+        <div class="text-muted">FR0800</div>
         <div class="mb-3">
           <UploadSingleEditor v-model="upload_prog"/>
         </div>
         <div>
           <button class="btn btn-primary" :disabled="!hasUploadedFR0800()" @click="download">Download</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Banco de Horas Por Período</div>
+      <div class="card-body">
+        <div class="text-muted">PE5410</div>
+        <div class="mb-3">
+          <UploadSingleEditor v-model="uploadPE5410"/>
+        </div>
+        <div>
+          <button class="btn btn-primary" :disabled="!hasUploadedPE5410()" @click="downloadPE5410">Download</button>
         </div>
       </div>
     </div>
@@ -21,6 +34,7 @@
 <script>
 import UploadSingleEditor from './components/UploadSingleEditor'
 import { H, showError } from 'hennig-common'
+import { downloadURL } from '@/common'
 
 export default {
   name: 'App',
@@ -29,12 +43,16 @@ export default {
   },
   data () {
     return {
-      upload_prog: ''
+      upload_prog: '',
+      uploadPE5410: ''
     }
   },
   methods: {
     hasUploadedFR0800 () {
       return !!this.upload_prog
+    },
+    hasUploadedPE5410 () {
+      return !!this.uploadPE5410
     },
     download () {
       if (!this.hasUploadedFR0800()) {
@@ -43,7 +61,18 @@ export default {
       H.setup({ prefix: process.env.VUE_APP_RPC_PREFIX })
       H.rpc('Datasul', 'convert', [this.upload_prog], r => {
         if (r) {
-          window.open(r)
+          downloadURL(r)
+        }
+      })
+    },
+    downloadPE5410 () {
+      if (!this.hasUploadedPE5410()) {
+        showError('Nenhum arquivo do tipo PE5410 foi enviado')
+      }
+      H.setup({ prefix: process.env.VUE_APP_RPC_PREFIX })
+      H.rpc('Datasul', 'convertPE5410', [this.uploadPE5410], r => {
+        if (r) {
+          downloadURL(r)
         }
       })
     }
